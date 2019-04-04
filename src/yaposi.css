@@ -1,0 +1,87 @@
+@import "./toolBar.css";
+@import "./preview.css";
+@import "../addon/codeBlock.css";
+@import "../addon/table.css";
+@import "../addon/img.css";
+@import "../lib/codemirror/codemirror.css";
+@import "../lib/codemirror/addon/dialog/dialog.css";
+@import "../lib/codemirror/addon/search/matchesonscrollbar.css";
+@import "../lib/codemirror/addon/fold/foldgutter.css";
+@import "../lib/katex/katex.css";
+
+/*Change this colors if you want to change the color*/
+:root{
+  --yaposi_Icon_Color:#AB47BC;
+  --yaposi_Toolb_Back:#F3E5F5;
+  --yaposi_Color_Hover:#7B1FA2;
+}
+/*------------------------------------------------*/
+
+.yaposi {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "toolbar toolbar""editor preview";
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid black; 
+} 
+.yaposi .codeMirrorWrapper{
+  grid-area: editor;
+  overflow: scroll;
+  display: flex;
+} 
+.yaposi .CodeMirror {
+  font-family: monospace;
+  height: 100%;
+  color: black;
+  padding: 7px;
+  border: 1px solid black;
+  font-family: Arial;
+  width: 100%;
+}
+.yaposi .yaposi-toolbar {
+  grid-area: toolbar;
+  margin: 3px;
+}
+.yaposi .yaposi-preview{
+  grid-area: preview;
+}  
+.yaposi.modePreview{
+  grid-template-columns: 1fr;
+  grid-template-areas: "toolbar toolbar""preview preview";
+}
+.yaposi.modeEditor{
+  grid-template-columns: 1fr;
+  grid-template-areas: "toolbar toolbar""editor editor";
+}
+.yaposi .yaposi-preview{
+  border: 1px solid black;
+  width: auto;
+}
+.yaposi button{
+  padding: 7px;
+  border-radius: 7px;
+}
+.yaposi .codeMirrorWrapper::-webkit-scrollbar { 
+  display: none; 
+}
+.yaposi .yaposi-preview::-webkit-scrollbar,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
+  appearance: none;
+  width: 7px;
+}
+.yaposi .yaposi-preview::-webkit-scrollbar:horizontal,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
+  height: 7px;
+}
+.yaposi .yaposi-preview::-webkit-scrollbar-thumb,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+@media all and (display-mode: fullscreen) {
+  .yaposi {
+    background-color: white;
+  }
+}

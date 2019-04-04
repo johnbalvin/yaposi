@@ -1,0 +1,46 @@
+.yaposi_Tb {
+    color: #666;
+    position: fixed;
+    z-index: 10;
+    display: none;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    font-size: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-730px);
+    transition: transform 0.2s ease;
+    overflow: hidden;
+    width: 350px;
+    border:1px solid black;
+    padding: 7px;
+    flex-direction: column;
+  }
+.yaposi_Tb-actions{
+  display: flex;
+  justify-content: space-between;
+}
+.yaposi_Tb-alineation ul,.yaposi_Tb-number ul{
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+.yaposi_Tb-alineation ul li,.yaposi_Tb-number ul li{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.yaposi_Tb-number input{
+  width: 150px;
+}
+.yaposi_Tb-number h3{
+  margin: 3px;
+}
+.yaposi_Tb-number h2{
+  margin: 3px;
+}
+.yaposi_Tb-number ul{
+  margin: 3px;
+}

@@ -1,0 +1,50 @@
+/*Toolbar*/
+.yaposi-toolbar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,30px);
+    grid-gap: 7px;
+    list-style: none;
+    padding: 10px;
+    background-color: var(--yaposi_Toolb_Back);
+}
+  
+.yaposi .yaposi-toolbar .text{
+    font-weight: bold;
+    color: var(--yaposi_Icon_Color);
+}
+
+.yaposi .yaposi-toolbar .icon{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.yaposi .yaposi-toolbar .icon:active{
+    transform: scale(0.95);
+}
+.yaposi .yaposi-toolbar .img{
+    width: 25px;height: 25px;
+}
+        
+.yaposi .yaposi-toolbar svg.img{
+    fill: var(--yaposi_Icon_Color);
+}
+
+.yaposi .yaposi-toolbar svg.img:hover{
+    fill: var(--yaposi_Color_Hover);
+}
+.yaposi .yaposi-toolbar .text:hover{
+    color: var(--yaposi_Color_Hover);
+}
+@media all and (display-mode: fullscreen) {
+    .yaposi-toolbar {
+      grid-template-columns: repeat(auto-fill,45px);
+      grid-gap: 12px;
+    }
+    .yaposi .yaposi-toolbar .img{
+      width: 35px;height: 35px;
+    }
+    .yaposi .yaposi-toolbar .text{
+      font-size: 35px;
+    }
+}

@@ -1,0 +1,31 @@
+.yaposi_CB {
+    color: #666;
+    position: fixed;
+    z-index: 10;
+    display: none;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-730px);
+    transition: transform 0.2s ease;
+    max-height: 90vh;
+    overflow: hidden;
+    width: 95vw;
+    border:1px solid black;
+    padding: 7px;
+    font-size: 18px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 35px 1fr 45px;
+    grid-gap: 5px;
+}
+  
+.yaposi_CB_cm{
+    overflow: scroll;
+}
+  
+.yaposi_CB_actions {
+    display: flex;
+    justify-content: space-between;
+}

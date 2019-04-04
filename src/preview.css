@@ -1,0 +1,72 @@
+/*
+Follow next steps if you generate the preview html and you are not using the editor:
+  - Use this css file 
+  - Import prettify js file and call PR.prettyPrint();
+*/
+@import "../lib/prettify/styles/sunburst.css";
+pre.prettyprint{
+  border: 1px solid #ddd !important;
+  margin: 7px;
+}
+.prettyprint ol.linenums{
+  color: #999;
+  padding-left: 2.5em;
+}
+.prettyprint ol.linenums > li { list-style-type: decimal; }
+
+.yaposi-preview hr {
+    height: 1px;
+    border: none;
+    border-top: 1px solid #BDBDBD;
+    background: 0 0;
+    margin: 2px 0 2px 0;
+}
+.yaposi-preview .inlineKatex{
+  display: inline;
+}
+.yaposi-preview .inlineImage{
+  display: flex;
+  align-items: center;
+}
+.yaposi-preview .alone{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.yaposi-preview img{
+  object-fit: contain; /*for large image see: https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit*/
+}
+.yaposi-preview .katex-display{
+  margin: 3px;
+  display: inline-block; /*If you remove this, you won't have any inline latex anymore*/
+}
+.yaposi-preview blockquote{
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #FFF8DC;
+  border-left: 2px solid #ffeb8e;
+}
+.yaposi-preview{
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    padding: 7px;
+    font-family: Arial;
+    width: 100%;
+    background-color: #fff;
+    color: rgba(0,0,0,.85);
+}
+.yaposi-preview td{
+    border: 1px solid #BDBDBD;
+}
+.yaposi-preview ol{
+    padding-left: 40px;
+}
+.yaposi-preview th{
+    padding: 6px 13px;
+    border: 1px solid #9E9E9E;
+}
+.yaposi-preview pre{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

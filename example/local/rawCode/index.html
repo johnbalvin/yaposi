@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Example Yaposi markdown editor</title>
+    <link rel="stylesheet" href="../../../src/yaposi.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="usage.js" type="module"></script>
+  </head>
+  <body>
+    <textarea style="display:none">
+# Yaposi, a markdown&#47;LaTeX editor
+
+### Installation
+* If module:
+&#96;&#96;&#96;html
+&lt;head&gt;
+   &lt;link rel=&quot;stylesheet&quot; href=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;0&#47;yaposi.css&quot;&gt;
+ &lt;&#47;head&gt;
+  &lt;body&gt;
+  &lt;&#47;body&gt;
+	&lt;script type=&quot;module&quot;&gt;
+		import {Yaposi as Editor} from &#039;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;0&#47;yaposi.mjs&#039;
+		&#47;&#47;continue in Usage
+	&lt;&#47;script&gt;
+ &lt;&#47;body&gt;
+&#96;&#96;&#96;
+* If normal:
+&#96;&#96;&#96;html
+&lt;head&gt;
+   &lt;link rel=&quot;stylesheet&quot; href=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;0&#47;yaposi.css&quot;&gt;
+   &lt;script defer src=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;0&#47;yaposi.js&quot;&gt;&lt;&#47;script&gt;
+  &lt;&#47;head&gt;
+   &lt;body&gt;
+  &lt;&#47;body&gt;
+    &lt;script&gt;
+		&#47;&#47;continue in Usage
+	&lt;&#47;script&gt;
+ &lt;&#47;body&gt;
+&#96;&#96;&#96;
+
+### Usage
+&#96;&#96;&#96;javascript
+let editor=new Editor(&quot;katex&quot;,&quot;# hello world&quot;);
+const domEditor=editor.getDom();
+document.body.appendChild(domEditor);
+&#96;&#96;&#96;
+* In this case instead of calling *Yaposi* we changed the name to be  *Editor*,  takes there parameters
+  
+
+   1. **LaTeX render name**: string
+       * What LaTeX rendering to use, &quot;katex&quot; or &quot;mathjax&quot;, for now it only works for katex, this is for   future compatibility.
+	   
+   2. **Initial markdown**: string
+       * The initial markdown to use.
+
+* Editor Dom element is at editor.me, but there is a issue with codemirror that you need to called refresh each time codemirror gets shown, you should see method **getDom()**
+
+### New lines
+
+* To add new lines you need to add icon &amp;#128165;
+
+💥💥💥💥
+
+
+### Methods
+ 
+
+* **GetMarkdown() → [string , string]**
+
+ * GetMarkdown returns the markdown from editor, the first value is the raw markdown and the second one is the scaped markdown, it will scape &amp;,&lt;,&gt;,&quot;,&#039;,&#96;,&#47; and &amp;#92; .
+
+* **GetHTML() → [string , string]**
+
+ * GetHTML returns the html rendered result of markdown, the first return value is the HTML and the the second one is the scaped HTML, it will scape &amp;,&lt;,&gt;,&quot;,&#039;,&#96;,&#47; and &amp;#92; .
+
+* **SetValue(string)**
+
+ * SetValue sets the string value to the editor, the string should be the markdown.
+
+* **getDom() → [Dom element]**
+
+ * getDom returns the dom editor element, it is here only to fix codemirror issue, the most anoying for me was [issues&#47;2469](https:&#47;&#47;github.com&#47;codemirror&#47;CodeMirror&#47;issues&#47;2469) , this method will be removed for future releases, when this issue gets solved.
+
+### LaTeX
+
+* You can add LaTeX by wrapping LaTeX content by  &amp;#129370;{LaTeX}&amp;#128036;,
+  the LaTeX renderer is [katex](https:&#47;&#47;katex.org), in a future release
+it will have suport for [mathjax](https:&#47;&#47;www.mathjax.org)
+
+🥚
+&#92;displaystyle &#92;frac{1}{&#92;Bigl(&#92;sqrt{&#92;phi &#92;sqrt{5}}-&#92;phi&#92;Bigr) e^{&#92;frac25 &#92;pi}} 
+= 1+&#92;frac{e^{-2&#92;pi}} {1+&#92;frac{e^{-4&#92;pi}} {1+&#92;frac{e^{-6&#92;pi}} {1+&#92;frac{e^{-8&#92;pi}} {1+&#92;cdots} } } }
+🐤
+
+* To use it inline just write as inline 🥚x = {-b &#92;pm &#92;sqrt{b^2-4ac} &#92;over 2a}🐤 as showed here.
+
+
+* If you write it as new line, it will be in a new line.
+
+🥚
+f(x)=&#92;int_{-&#92;infty}^&#92;infty
+    &#92;hat f(&#92;xi)&#92;,e^{2 &#92;pi i &#92;xi x}
+    d&#92;xi🐤
+	
+### Image
+	
+* for inline image just write as inline![Image 2][2]
+
+* for a image to be in new line just put it in a new line. 
+
+![Image 2][2]
+
+
+![Image 1][1]
+
+### License
+
+Yaposi is licensed under the [MIT License](http:&#47;&#47;opensource.org&#47;licenses&#47;MIT)
+
+
+[1]: https:&#47;&#47;images.unsplash.com&#47;photo-1534653169071-4f036d137aca?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=748&amp;q=80 &quot;random title&quot; 
+
+[2]: https:&#47;&#47;github.com&#47;adam-p&#47;markdown-here&#47;raw&#47;master&#47;src&#47;common&#47;images&#47;icon48.png &quot;random title&quot;
+    </textarea>
+  </body>
+</html>
