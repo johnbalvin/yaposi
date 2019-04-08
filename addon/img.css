@@ -45,8 +45,6 @@
     50%{stroke-dasharray:89,200;stroke-dashoffset:-35;}
     100%{stroke-dasharray:89,200;stroke-dashoffset:-124;}
 }
-/*spinning*/
-
 .yaposi-img input{
     display: none;
 }
@@ -91,4 +89,7 @@
 }
 .yaposi-img{
     width: 350px;
+}
+.yaposi-img-cross{
+    display: none;
 }

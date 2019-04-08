@@ -728,6 +728,9 @@ function yaposi(exports= {}) {
             this.dragleave=this.dragleave.bind(this);
             this.drop=this.drop.bind(this);
             this.putFile=this.putFile.bind(this);
+            this.uploadFile=this.uploadFile.bind(this);
+            this.generateFetch=this.generateFetch.bind(this);
+            this.addURL=this.addURL.bind(this);
             this.uploadImg=false;
             this.insertBtn="";
             this.codeMirrorTarget=codeMirrorTarget;
@@ -737,10 +740,20 @@ function yaposi(exports= {}) {
             this.stateCross="";
             this.imgPreviewWrapper="";
             this.droppperImg="";
-            this.counting=1;
             this.me="";
             this.imgURL="";
             this.img="";
+        }
+        getNumber(){//see where image number is starting
+            const regex = /\[\d{1,3}]: http/g;//macth all "[number]: http"
+            const regexN = /\d{1,3}/g;//macth all numbers from 1 digit to there
+            const cmValueRaw = this.codeMirrorTarget.getValue();
+            const firtMatch = cmValueRaw.match(regex);//macth all "[number]: http"
+            if(firtMatch==null){//no image inside
+              return 0
+            }
+            const secondMatch = firtMatch.join("").match(regexN);//macth all numbers from 1 digit to there
+            return  Math.max(...secondMatch) + 1  //spread operator ....
         }
         create() {
             let html = `
@@ -805,19 +818,7 @@ function yaposi(exports= {}) {
                 return
             }
             if(selection.includes("http")){
-                let cursor    = this.codeMirrorTarget.getCursor();
-                let put=`![Image ${this.counting}][${this.counting}]\n`;
-        
-                //check if cursor, in principal editor, it's at the beginning, if not it jumps to new line.
-                if (cursor.ch !== 0) {
-                    put = "\r\n\r\n" + put;
-                }
-                this.codeMirrorTarget.replaceSelection(put);
-        
-                let before=this.codeMirrorTarget.getValue();
-                before+=`\r\n[${this.counting}]: ${selection} "random title" \n`;
-                this.codeMirrorTarget.setValue(before);
-                this.counting++;
+                this.addURL(selection);
                 return
             }
             console.log("Your selection must include an url");
@@ -826,25 +827,30 @@ function yaposi(exports= {}) {
             this.me.style.display="grid";
             setTimeout(()=>{this.me.style.transform="translate(-50%,-50%)";},0);
         }
-        async insert(){
-            await this.uploadFile();
-            if(this.imgURL==""){
-                return
-            }
-            let put=`![Image ${this.counting}][${this.counting}]\n`;
+        addURL(url){
+            const number = this.getNumber();
+            let cursor    = this.codeMirrorTarget.getCursor();
+            let put=`![Image ${number}][${number}]\n`;
 
             //check if cursor, in principal editor, it's at the beginning, if not it jumps to new line.
-            let cursor    = this.codeMirrorTarget.getCursor();
             if (cursor.ch !== 0) {
                 put = "\r\n\r\n" + put;
             }
             this.codeMirrorTarget.replaceSelection(put);
 
             let before=this.codeMirrorTarget.getValue();
-            before+=`\r\n[${this.counting}]: ${this.imgURL} "random title" \n`;
+            before+=`\r\n[${number}]: ${url} "random title" \n`;
             this.codeMirrorTarget.setValue(before);
-
             this.counting++;
+        }
+        async insert(){
+            await this.uploadFile();
+            const urlImg=this.imgURL;
+            if(urlImg==""){
+                console.log("No URL");
+                return
+            }
+            this.addURL(urlImg);
             this.hide();
         }
         hide(){
@@ -895,15 +901,20 @@ function yaposi(exports= {}) {
             },{once:true};
             img.src=window.URL.createObjectURL(this.file);
         }
+        generateFetch(img){//this fits my needs, you should change it by your needs :D.
+            const body= new FormData();
+            body.append("c","2");
+            body.append("c2","1");
+            body.append("img",img);
+            return body
+        }
         async uploadFile(){
             this.imgPreviewWrapper.style.display="none";
             this.insertBtn.style.visibility="hidden";
             this.stateWrapper.style.display="flex";
             this.stateUp.style.display="flex";
             
-            let body= new FormData();
-            body.append("c","6");
-            body.append("img",this.file);
+            const body = this.generateFetch(this.file);
             await fetch("",{credentials:"include",method:"post",body:body})
             .then((resp)=>{
                 if(resp.status==200){
@@ -915,7 +926,6 @@ function yaposi(exports= {}) {
             })
             .then((url)=>{
                 this.imgURL=url;
-                this.hide();
             })
             .catch((error)=>{
                 this.stateCross.style.display="flex";
@@ -61248,5 +61258,4 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
     exports.Yaposi = Yaposi;
 
     return exports
-
 };
