@@ -1,4 +1,4 @@
-
+//version: 1
 const values=yaposi();
 var Yaposi=values.Yaposi;
 var MarkdownRender=values.MarkdownRender;
@@ -728,10 +728,13 @@ function yaposi(exports= {}) {
             this.dragleave=this.dragleave.bind(this);
             this.drop=this.drop.bind(this);
             this.putFile=this.putFile.bind(this);
+            this.uploadImg=false;
             this.insertBtn="";
             this.codeMirrorTarget=codeMirrorTarget;
             this.droppperWrapper="";
-            this.spinningWrapper="";
+            this.stateWrapper="";
+            this.stateUp="";
+            this.stateCross="";
             this.imgPreviewWrapper="";
             this.droppperImg="";
             this.counting=1;
@@ -742,19 +745,22 @@ function yaposi(exports= {}) {
         create() {
             let html = `
             <div class="yaposi-img">
-                <div class="yaposi-dropper"> 
+                <div class="yaposi-img-dropper"> 
                     <input type="file" accept="image/*">
-                    <svg class="yaposi-upload" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <svg class="yaposi-upload" viewBox="0 0 24 24">
                       <path d="M0 0h24v24H0z" fill="none"/>
                       <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
                     </svg>
                 </div>
-                <div class="yaposi-uploading">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="yaposi-spinning" viewBox="25 25 50 50" >
+                <div class="yaposi-img-state">
+                    <svg class="yaposi-img-uploading" class="yaposi-spinning" viewBox="25 25 50 50" >
                         <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#70c542" stroke-width="10" />
                     </svg>
+                    <svg class="yaposi-img-cross" viewBox="0 0 32 32">
+                       <path d="M31.708 25.708c-0-0-0-0-0-0l-9.708-9.708 9.708-9.708c0-0 0-0 0-0 0.105-0.105 0.18-0.227 0.229-0.357 0.133-0.356 0.057-0.771-0.229-1.057l-4.586-4.586c-0.286-0.286-0.702-0.361-1.057-0.229-0.13 0.048-0.252 0.124-0.357 0.228 0 0-0 0-0 0l-9.708 9.708-9.708-9.708c-0-0-0-0-0-0-0.105-0.104-0.227-0.18-0.357-0.228-0.356-0.133-0.771-0.057-1.057 0.229l-4.586 4.586c-0.286 0.286-0.361 0.702-0.229 1.057 0.049 0.13 0.124 0.252 0.229 0.357 0 0 0 0 0 0l9.708 9.708-9.708 9.708c-0 0-0 0-0 0-0.104 0.105-0.18 0.227-0.229 0.357-0.133 0.355-0.057 0.771 0.229 1.057l4.586 4.586c0.286 0.286 0.702 0.361 1.057 0.229 0.13-0.049 0.252-0.124 0.357-0.229 0-0 0-0 0-0l9.708-9.708 9.708 9.708c0 0 0 0 0 0 0.105 0.105 0.227 0.18 0.357 0.229 0.356 0.133 0.771 0.057 1.057-0.229l4.586-4.586c0.286-0.286 0.362-0.702 0.229-1.057-0.049-0.13-0.124-0.252-0.229-0.357z" fill="red"/>
+                    </svg>
                 </div>
-                <div class="yaposi-imgPreview">
+                <div class="yaposi-img-preview">
                     <img src="">
                 </div>
                 <div class="yaposi-img-actions">
@@ -766,7 +772,7 @@ function yaposi(exports= {}) {
             let temp=document.createElement("template");
             temp.innerHTML=html;
             let wrapper=temp.content.querySelector(".yaposi-img");
-            this.droppperWrapper=wrapper.querySelector(".yaposi-dropper");
+            this.droppperWrapper=wrapper.querySelector(".yaposi-img-dropper");
             this.droppperImg=this.droppperWrapper.querySelector(".yaposi-upload");
             this.me=wrapper;
 
@@ -783,16 +789,19 @@ function yaposi(exports= {}) {
 
             this.insertBtn=wrapper.querySelector(".insert");
             this.insertBtn.addEventListener("click",this.insert);
+            
+            this.stateWrapper=wrapper.querySelector(".yaposi-img-state");
+            this.stateUp=this.stateWrapper.querySelector(".yaposi-img-uploading");
+            this.stateCross=this.stateWrapper.querySelector(".yaposi-img-cross");
 
-            this.spinningWrapper=wrapper.querySelector(".yaposi-uploading");
-            this.imgPreviewWrapper=wrapper.querySelector(".yaposi-imgPreview");
+            this.imgPreviewWrapper=wrapper.querySelector(".yaposi-img-preview");
             return wrapper
         }
         handle(){
             let cm        = this.codeMirrorTarget;
             let selection = cm.getSelection();
-            if (selection==""){
-                //this.show(); there is implemented how to upload the image, use it if you know to do it
+            if (selection=="" && this.uploadImg){
+                this.show(); //there is implemented how to upload the image, use it if you know to do it
                 return
             }
             if(selection.includes("http")){
@@ -811,6 +820,7 @@ function yaposi(exports= {}) {
                 this.counting++;
                 return
             }
+            console.log("Your selection must include an url");
         }
         show() {
             this.me.style.display="grid";
@@ -845,7 +855,9 @@ function yaposi(exports= {}) {
             this.imgPreviewWrapper.style.display="none";
             this.droppperWrapper.style.display="flex";
             this.insertBtn.style.visibility="hidden";
-            this.spinningWrapper.style.display="none";
+            this.stateWrapper.style.display="none";
+            this.stateUp.style.display="flex";
+            this.stateCross.style.display="none";
         }
         dragover(e){
             e.preventDefault();e.stopPropagation();
@@ -886,8 +898,9 @@ function yaposi(exports= {}) {
         async uploadFile(){
             this.imgPreviewWrapper.style.display="none";
             this.insertBtn.style.visibility="hidden";
-            this.spinningWrapper.style.display="flex";
-
+            this.stateWrapper.style.display="flex";
+            this.stateUp.style.display="flex";
+            
             let body= new FormData();
             body.append("c","6");
             body.append("img",this.file);
@@ -905,6 +918,8 @@ function yaposi(exports= {}) {
                 this.hide();
             })
             .catch((error)=>{
+                this.stateCross.style.display="flex";
+                this.stateUp.style.display="none";
                 if(error=="server"){
                     return
                 }
@@ -60968,37 +60983,47 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
       }
     };
 
-    /*If you are debugging the code you may wonder why sometimes I call codeMirror.refresh();
-      There are weird behaviors with Codemirror, when the codemirror changes it's size, or when 
+    /*If you are debugging the code you may wonder why sometimes I call CodeMirror.refresh();
+      There are weird behaviors with CodeMirror, when the CodeMirror changes it's size, or when 
       goes from hiding to showing.
       Behaviors: 
             - not selecting text correctly.
-            - codemirror not showing
+            - CodeMirror not showing
       not showing any text until clicked, when clicked on an area .. etc
-        //https://github.com/codemirror/CodeMirror/issues/4997
-        //https://github.com/codemirror/CodeMirror/issues/2469
+        //https://github.com/CodeMirror/CodeMirror/issues/4997
+        //https://github.com/CodeMirror/CodeMirror/issues/2469
         For this reason I called it whenever it's size change or when I'm showing it
     */
 
     class Yaposi{
         constructor(mdRendererName,markdownInitial){
-            this.me="";
-            this.CodeBlock="";
-            this.Img="";
-            this.Table="";
-            this.toolbar="";
-            this.codeMirror="";
+            this.Me="";
+            this.CodeBlock={Module: CodeBlock, Handler: "" , Dom:""};
+            this.Img={Module: Img, Handler: "" , Dom:""};
+            this.Table={Module: Table, Handler: "" , Dom: ""};
+            this.Toolbar={Module: Toolbar, Handler: "" , Dom: ""};
+            this.CodeMirror={Module: CodeMirror, Handler: "" , Dom: ""};
             this.GetHTML=this.GetHTML.bind(this);
             this.GetMarkdown=this.GetMarkdown.bind(this);
             this.markdownRender = new MarkdownRender(mdRendererName);
-            this.start(markdownInitial);
+            this.mdInitial=markdownInitial;
         }
-        getDom(){//this may be removed until codemirror issue gets solved
-            setTimeout(()=>{
-                this.codeMirror.focus();
-                this.codeMirror.refresh();
-            },300);
-            return this.me
+        GetMarkdown(){//it returns markdown value, and scaped version of it
+            const cm                = this.CodeMirror.Handler;    
+            const cmValue           = cm.getValue();//-------------------------markdown value
+            const scaped            = this.sanitize(cmValue);
+            return [cmValue,scaped]
+        }
+        GetHTML(){//it returns the markdown html result and scaped version of it
+            const cm                = this.CodeMirror.Handler;    
+            const cmValueRaw           = cm.getValue();//-------------------------markdown value
+            const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
+            const htmlValue         = this.markdownRender.getHTML(cmValue);
+            const scapedHTML        = this.sanitize(htmlValue);
+            return [htmlValue,scapedHTML]
+        }
+        SetValue(markdown){//set a markdown value to editor
+            this.CodeMirror.Handler.setValue(markdown);
         }
         creatPreview(){
             const preview=document.createElement("div");
@@ -61008,75 +61033,82 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
             wrapper.dataset.state="both";
             return [preview,wrapper]
         }
-        start(markdownInitial){
-                let wrapper=document.createElement("div");
-                wrapper.classList.add("yaposi");
-                const codeMirrorWrapper=document.createElement("div");
-                codeMirrorWrapper.classList.add("codeMirrorWrapper");
-                wrapper.appendChild(codeMirrorWrapper);
-                const codeMirrorConfig=this.codeMirrorConfigF(markdownInitial);
-                this.codeMirror=CodeMirror(codeMirrorWrapper, codeMirrorConfig);
-            /* Creat and toolbar with it's listener */
-                this.toolbar=new Toolbar(this.codeMirror,wrapper);
-                const toolBarHTML=this.toolbar.create();
-                wrapper.prepend(toolBarHTML);
-                this.toolbar.registerKeyMaps();
-            /*---------------------------- */
-            
-            /*creat preview */
-                const [preview,wrapperPreview]=this.creatPreview();
-                wrapper.appendChild(wrapperPreview); 
-                this.previewContainer=preview;
-            /*----------------------------*/ 
+        Start(){
+            const wrapper=document.createElement("div");
+            wrapper.classList.add("yaposi");
+            const cmWrapper=document.createElement("div");
+            cmWrapper.classList.add("codeMirrorWrapper");
+            wrapper.appendChild(cmWrapper);
 
+            const cmModule = this.CodeMirror.Module;
+            const cmConfig=    this.CodeMirrorConfig(this.mdInitial);
+            const cmHandler = cmModule(cmWrapper, cmConfig);
+            this.CodeMirror.Handler= cmHandler;
+
+            /*creat preview */
+            const [preview,wrapperPreview]=this.creatPreview();
+            wrapper.appendChild(wrapperPreview); 
+            this.previewContainer=preview;
+            /*----------------------------*/ 
+            /* Creat toolbar with it's listener */
+            const tobModule  =  this.Toolbar.Module;
+            const tobHandler =  new tobModule(cmHandler,wrapper);
+            const tobDom     =  tobHandler.create();
+            wrapper.prepend(tobDom);
+            tobHandler.registerKeyMaps();
+
+            this.Toolbar.Dom = tobDom;
+            this.Toolbar.Handler= tobHandler;
+            /*---------------------------- */
+        
             /* creat the code full handler*/
-                this.CodeBlock=new CodeBlock(this.codeMirror);
-                const codeFullHTML=this.CodeBlock.create();
-                wrapper.appendChild(codeFullHTML);
-                const iconCodeFull=toolBarHTML.querySelector(`[data-name="code-block"]`);
-                iconCodeFull.addEventListener("click",this.CodeBlock.show);
+            const cbModule  = this.CodeBlock.Module;
+            const cbHandler = new cbModule(cmHandler);
+            const cbDom     = cbHandler.create();
+            wrapper.appendChild(cbDom);
+            const cbIcon=tobDom.querySelector(`[data-name="code-block"]`);
+            cbIcon.addEventListener("click",cbHandler.show);
+
+            this.CodeBlock.Dom= cbDom;
+            this.CodeBlock.Handler=cbHandler;
             /*----------------------------- */
 
             /* creat the upload image handler*/
-                this.Img=new Img(this.codeMirror);
-                const imgHandlerHTML=this.Img.create();
-                wrapper.appendChild(imgHandlerHTML);
-                const iconCodeImg=toolBarHTML.querySelector(`[data-name="image"]`);
-                iconCodeImg.addEventListener("click",this.Img.handle);
+            const imgModule = this.Img.Module;
+            const imgHandler=new imgModule(cmHandler);
+            const imgDom= imgHandler.create();
+            wrapper.appendChild(imgDom);
+            const imIcon=tobDom.querySelector(`[data-name="image"]`);
+            imIcon.addEventListener("click",imgHandler.handle);
+
+            this.Img.Dom= imgDom;
+            this.Img.Handler= imgHandler;
             /*----------------------------- */
 
             /*creat table handler*/
-                this.Table=new Table(this.codeMirror);
-                const tableHandlerHTML=this.Table.create();
-                wrapper.appendChild(tableHandlerHTML);
-                const iconTable=toolBarHTML.querySelector(`[data-name="table"]`);
-                iconTable.addEventListener("click",this.Table.show);
+            const tbModule  = this.Table.Module; 
+            const tbHandler = new tbModule(cmHandler);
+            const tbDom = tbHandler.create();
+            wrapper.appendChild(tbDom);
+            const tbIcon=tobDom.querySelector(`[data-name="table"]`);
+            tbIcon.addEventListener("click",this.Table.show);
+
+            this.Table.Dom = tbDom;
+            this.Table.Handler= tbHandler;
             /*--------------------------- */
             this.render();
-            this.codeMirror.on("change",()=>{this.render();});
+            cmHandler.on("change",()=>{this.render();});
            
-            this.me=wrapper;
-        }
-        GetMarkdown(){//it returns markdown value, and scaped version of it
-            const cm                = this.codeMirror;    
-            const cmValue           = cm.getValue();//-------------------------markdown value
-            const scaped            = this.sanitize(cmValue);
-            return [cmValue,scaped]
-        }
-        GetHTML(){//it returns the markdown html result and scaped version of it
-            const cm                = this.codeMirror;    
-            const cmValueRaw           = cm.getValue();//-------------------------markdown value
-            const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
-            const htmlValue         = this.markdownRender.getHTML(cmValue);
-            const scapedHTML        = this.sanitize(htmlValue);
-            return [htmlValue,scapedHTML]
-        }
-        SetValue(markdown){//set a markdown value to editor
-            this.codeMirror.setValue(markdown);
+            this.Me=wrapper;
+            setTimeout(()=>{
+                this.CodeMirror.Handler.focus();
+                this.CodeMirror.Handler.refresh();
+            },300);
+            return wrapper
         }
         render() {
             const previewContainer      = this.previewContainer;
-            const cm                    = this.codeMirror;    
+            const cm                    = this.CodeMirror.Handler;    
             let cmValue               = cm.getValue();//-------------------------markdown value
             cmValue= cmValue.replace(/</g, "&lt;").replace(/💥/g, "<br>");
             const htmlValue             = this.markdownRender.getHTML(cmValue);
@@ -61096,7 +61128,7 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
             };
             return unSafeString.replace(/[&<>"'`/\\]/g, (match)=>(map[match]));
         }
-        codeMirrorConfigF(markdownInitial){
+        CodeMirrorConfig(markdownInitial){
             const me={
                 value                     : markdownInitial,
                 mode                      : "gfm",
@@ -61216,4 +61248,5 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
     exports.Yaposi = Yaposi;
 
     return exports
+
 };

@@ -1,43 +1,44 @@
 # Yaposi, a markdown/LaTeX editor
-### Online Example
-* [normal](https://storage.googleapis.com/yaposi/example/fetching/normal/index.html)
-
-* [module](https://storage.googleapis.com/yaposi/example/fetching/module/index.html)
 
 ### Installation
-* If module:
+
 ```html
-<head>
-   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1/yaposi.css">
- </head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Example Yaposi markdown editor</title>
+    <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1/yaposi.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="usage.js" type="module"></script>
+  </head>
   <body>
   </body>
-	<script type="module">
-		import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1/yaposi.mjs'
-		//continue in Usage
-	</script>
- </body>
-```
-* If normal:
-```html
-<head>
-   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1/yaposi.css">
-   <script defer src="https://storage.googleapis.com/yaposi/release/1/yaposi.js"></script>
-  </head>
-   <body>
-  </body>
-    <script>
-		const Editor=Yaposi;
-		//continue in Usage
-	</script>
- </body>
+</html>
+
 ```
 
-### Usage
+### usage.js
 ```javascript
-const editor= new Editor("katex","# hello world");
-let domEditor = editor.Start();
+import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1/yaposi.mjs';
+
+
+const editor=new Editor("katex","# fetching data.....");  
+let domEditor= editor.Start();
 document.body.appendChild(domEditor);
+
+
+fetch("./README.md",{method:"GET"})
+    .then((resp)=>{
+        return resp.text()
+    } )
+    .then((markdown)=>{
+        editor.SetValue(markdown);
+    })
+    .catch(err=>{
+        console.log(err);
+})
 ```
 * In this case instead of calling *Yaposi* we changed the name to be  *Editor*,  takes there parameters
   
@@ -51,7 +52,7 @@ document.body.appendChild(domEditor);
 ### Methods
 
  * **Start()**
-  * builds dom element for editor; .
+  * builds dom element for editor.
 
 * **GetMarkdown() → [string , string]**
  * GetMarkdown returns the markdown from editor, the first value is the raw markdown and the second one is the scaped markdown, it will scape &,<,>,",',`,/ and &#92; .

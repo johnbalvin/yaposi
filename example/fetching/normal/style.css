@@ -1,0 +1,8 @@
+body{
+    height: 96vh;
+    width: 96vw;
+}
+.github{
+    display: flex;
+    justify-content: space-around;
+}

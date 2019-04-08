@@ -1,3 +1,4 @@
+/*version: 0.1*/
 /*Change this colors if you want to change the color*/
 :root{
   --yaposi_Icon_Color:#AB47BC;
@@ -5,7 +6,6 @@
   --yaposi_Color_Hover:#7B1FA2;
 }
 /*------------------------------------------------*/
-
 .yaposi {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -14,7 +14,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border: 1px solid black;
+  border: 1px solid black; 
 } 
 .yaposi .codeMirrorWrapper{
   grid-area: editor;
@@ -175,7 +175,6 @@ Follow next steps if you generate the preview html and you are not using the edi
   - Use this css file 
   - Import prettify js file and call PR.prettyPrint();
 */
-
 pre.prettyprint{
   border: 1px solid #ddd !important;
   margin: 7px;
@@ -273,6 +272,100 @@ pre.prettyprint{
   display: flex;
   justify-content: space-between;
 }
+.yaposi-img{
+  color: #666;
+  position: fixed;
+  z-index: 7;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-730px);
+  transition: transform 0.2s ease;
+  height: 250px;
+  overflow: hidden;
+  width: 350px;
+  border:1px solid black;
+  
+  display: none;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+}
+/*spinning*/
+.yaposi-img .yaposi-img-actions .insert{
+  visibility: hidden;
+}
+.yaposi-img .yaposi-img-uploading{
+  animation:yaposi-spinning-rotate 1s linear infinite;
+  transform-origin:center center;
+  width: 40%;
+}
+.yaposi-img .yaposi-img-uploading .loader-path{
+  stroke-dasharray:150,200;
+  stroke-dashoffset:-10;
+  animation:yaposi-spinning-dash 2s ease-in-out infinite;
+  stroke:#70c542;
+  stroke-linecap: round;
+}
+@keyframes yaposi-spinning-rotate{
+  100%{transform:rotate(360deg);}
+}
+@keyframes yaposi-spinning-dash{
+  0%{stroke-dasharray:1,200;stroke-dashoffset:0;}
+  50%{stroke-dasharray:89,200;stroke-dashoffset:-35;}
+  100%{stroke-dasharray:89,200;stroke-dashoffset:-124;}
+}
+/*spinning*/
+
+.yaposi-img input{
+  display: none;
+}
+.yaposi-img-dropper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border: 1px dashed black;
+  margin: 7px;
+}
+.yaposi-img-state{
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.yaposi-img-preview{
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.yaposi-img-preview img{
+  width: 50%;
+}
+.yaposi-img-actions{
+  display: flex;
+  justify-content: space-between;
+}
+.yaposi-img-dropper svg.dragover{
+  fill:red;
+}
+.yaposi-img svg{
+  width: 50%;
+}
+.yaposi-img-dropper.dragover{
+  border: 1px dashed red;
+}
+.yaposi-img-dropper svg:active{
+  transform: scale(0.95)
+}
+.yaposi-img{
+  width: 350px;
+}
 .yaposi_Tb {
   color: #666;
   position: fixed;
@@ -318,98 +411,6 @@ margin: 3px;
 }
 .yaposi_Tb-number ul{
 margin: 3px;
-}
-.yaposi-img{
-  color: #666;
-  position: fixed;
-  z-index: 7;
-  border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  background: #fff;
-  font-size: 14px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-730px);
-  transition: transform 0.2s ease;
-  height: 250px;
-  overflow: hidden;
-  width: 350px;
-  border:1px solid black;
-  
-  display: none;
-  justify-content: center;
-  align-items: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto;
-}
-/*spinning*/
-.yaposi-img .yaposi-img-actions .insert{
-  visibility: hidden;
-}
-.yaposi-spinning{
-  animation:yaposi-spinning-rotate 1s linear infinite;
-  transform-origin:center center;
-  width: 40%;
-}
-.yaposi-spinning .loader-path{
-  stroke-dasharray:150,200;
-  stroke-dashoffset:-10;
-  animation:yaposi-spinning-dash 2s ease-in-out infinite;
-  stroke:#70c542;
-  stroke-linecap: round;
-}
-@keyframes yaposi-spinning-rotate{
-  100%{transform:rotate(360deg);}
-}
-@keyframes yaposi-spinning-dash{
-  0%{stroke-dasharray:1,200;stroke-dashoffset:0;}
-  50%{stroke-dasharray:89,200;stroke-dashoffset:-35;}
-  100%{stroke-dasharray:89,200;stroke-dashoffset:-124;}
-}
-/*spinning*/
-
-.yaposi-img input{
-  display: none;
-}
-.yaposi-dropper{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  border: 1px dashed black;
-  margin: 7px;
-}
-.yaposi-uploading{
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-.yaposi-imgPreview{
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-.yaposi-imgPreview img{
-  width: 50%;
-}
-.yaposi-img-actions{
-  display: flex;
-  justify-content: space-between;
-}
-.yaposi-dropper svg.dragover{
-  fill:red;
-}
-.yaposi-dropper svg{
-  width: 50px;
-  height: 50px;
-}
-.yaposi-dropper.dragover{
-  border: 1px dashed red;
-}
-.yaposi-dropper svg:active{
-  transform: scale(0.95)
 }
 /* BASICS */
 
@@ -820,121 +821,121 @@ span.CodeMirror-selectedtext { background: none; }
 /* stylelint-disable font-family-no-missing-generic-family-keyword */
 @font-face {
   font-family: 'KaTeX_AMS';
-  src: url('fonts/KaTeX_AMS-Regular.woff2') format('woff2'), url('fonts/KaTeX_AMS-Regular.woff') format('woff'), url('fonts/KaTeX_AMS-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_AMS-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_AMS-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_AMS-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Caligraphic';
-  src: url('fonts/KaTeX_Caligraphic-Bold.woff2') format('woff2'), url('fonts/KaTeX_Caligraphic-Bold.woff') format('woff'), url('fonts/KaTeX_Caligraphic-Bold.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Bold.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Bold.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Caligraphic';
-  src: url('fonts/KaTeX_Caligraphic-Regular.woff2') format('woff2'), url('fonts/KaTeX_Caligraphic-Regular.woff') format('woff'), url('fonts/KaTeX_Caligraphic-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Caligraphic-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Fraktur';
-  src: url('fonts/KaTeX_Fraktur-Bold.woff2') format('woff2'), url('fonts/KaTeX_Fraktur-Bold.woff') format('woff'), url('fonts/KaTeX_Fraktur-Bold.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Bold.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Bold.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Fraktur';
-  src: url('fonts/KaTeX_Fraktur-Regular.woff2') format('woff2'), url('fonts/KaTeX_Fraktur-Regular.woff') format('woff'), url('fonts/KaTeX_Fraktur-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Fraktur-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Main';
-  src: url('fonts/KaTeX_Main-Bold.woff2') format('woff2'), url('fonts/KaTeX_Main-Bold.woff') format('woff'), url('fonts/KaTeX_Main-Bold.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Bold.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Bold.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Main';
-  src: url('fonts/KaTeX_Main-BoldItalic.woff2') format('woff2'), url('fonts/KaTeX_Main-BoldItalic.woff') format('woff'), url('fonts/KaTeX_Main-BoldItalic.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-BoldItalic.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-BoldItalic.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
   font-family: 'KaTeX_Main';
-  src: url('fonts/KaTeX_Main-Italic.woff2') format('woff2'), url('fonts/KaTeX_Main-Italic.woff') format('woff'), url('fonts/KaTeX_Main-Italic.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Italic.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Italic.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: 'KaTeX_Main';
-  src: url('fonts/KaTeX_Main-Regular.woff2') format('woff2'), url('fonts/KaTeX_Main-Regular.woff') format('woff'), url('fonts/KaTeX_Main-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Main-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Math';
-  src: url('fonts/KaTeX_Math-BoldItalic.woff2') format('woff2'), url('fonts/KaTeX_Math-BoldItalic.woff') format('woff'), url('fonts/KaTeX_Math-BoldItalic.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-BoldItalic.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-BoldItalic.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-BoldItalic.ttf') format('truetype');
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
   font-family: 'KaTeX_Math';
-  src: url('fonts/KaTeX_Math-Italic.woff2') format('woff2'), url('fonts/KaTeX_Math-Italic.woff') format('woff'), url('fonts/KaTeX_Math-Italic.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-Italic.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-Italic.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Math-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: 'KaTeX_SansSerif';
-  src: url('fonts/KaTeX_SansSerif-Bold.woff2') format('woff2'), url('fonts/KaTeX_SansSerif-Bold.woff') format('woff'), url('fonts/KaTeX_SansSerif-Bold.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Bold.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Bold.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_SansSerif';
-  src: url('fonts/KaTeX_SansSerif-Italic.woff2') format('woff2'), url('fonts/KaTeX_SansSerif-Italic.woff') format('woff'), url('fonts/KaTeX_SansSerif-Italic.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Italic.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Italic.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: 'KaTeX_SansSerif';
-  src: url('fonts/KaTeX_SansSerif-Regular.woff2') format('woff2'), url('fonts/KaTeX_SansSerif-Regular.woff') format('woff'), url('fonts/KaTeX_SansSerif-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_SansSerif-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Script';
-  src: url('fonts/KaTeX_Script-Regular.woff2') format('woff2'), url('fonts/KaTeX_Script-Regular.woff') format('woff'), url('fonts/KaTeX_Script-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Script-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Script-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Script-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Size1';
-  src: url('fonts/KaTeX_Size1-Regular.woff2') format('woff2'), url('fonts/KaTeX_Size1-Regular.woff') format('woff'), url('fonts/KaTeX_Size1-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size1-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size1-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size1-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Size2';
-  src: url('fonts/KaTeX_Size2-Regular.woff2') format('woff2'), url('fonts/KaTeX_Size2-Regular.woff') format('woff'), url('fonts/KaTeX_Size2-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size2-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size2-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size2-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Size3';
-  src: url('fonts/KaTeX_Size3-Regular.woff2') format('woff2'), url('fonts/KaTeX_Size3-Regular.woff') format('woff'), url('fonts/KaTeX_Size3-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size3-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size3-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size3-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Size4';
-  src: url('fonts/KaTeX_Size4-Regular.woff2') format('woff2'), url('fonts/KaTeX_Size4-Regular.woff') format('woff'), url('fonts/KaTeX_Size4-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size4-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size4-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Size4-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'KaTeX_Typewriter';
-  src: url('fonts/KaTeX_Typewriter-Regular.woff2') format('woff2'), url('fonts/KaTeX_Typewriter-Regular.woff') format('woff'), url('fonts/KaTeX_Typewriter-Regular.ttf') format('truetype');
+  src: url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Typewriter-Regular.woff2') format('woff2'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Typewriter-Regular.woff') format('woff'), url('https://storage.googleapis.com/yaposi/katex/fonts/0/KaTeX_Typewriter-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

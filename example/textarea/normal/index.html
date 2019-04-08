@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Example Yaposi markdown editor</title>
+    <link rel="stylesheet" href="../../../dist/yaposi.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="../../../dist/yaposi.js"></script>
+    <script  defer src="usage.js"></script>
+  </head>
+  <body>
+    <div class="github">
+      <a href="https://github.com/johnbalvin/yaposi">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+    </div>
+<textarea style="display:none">
+# Yaposi, a markdown&#47;LaTeX editor
+### Online Example
+* [normal](https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;example&#47;fetching&#47;normal&#47;index.html)
+
+* [module](https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;example&#47;fetching&#47;module&#47;index.html)
+
+### Installation
+* If module:
+&#96;&#96;&#96;html
+&lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;1&#47;yaposi.css&quot;&gt;
+  &lt;&#47;head&gt;
+  &lt;body&gt;
+  &lt;&#47;body&gt;
+  &lt;script type=&quot;module&quot;&gt;
+    import {Yaposi as Editor} from &#039;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;1&#47;yaposi.mjs&#039;
+    &#47;&#47;continue in Usage
+  &lt;&#47;script&gt;
+  &lt;&#47;body&gt;
+&#96;&#96;&#96;
+* If normal:
+&#96;&#96;&#96;html
+&lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;1&#47;yaposi.css&quot;&gt;
+    &lt;script defer src=&quot;https:&#47;&#47;storage.googleapis.com&#47;yaposi&#47;release&#47;1&#47;yaposi.js&quot;&gt;&lt;&#47;script&gt;
+  &lt;&#47;head&gt;
+    &lt;body&gt;
+  &lt;&#47;body&gt;
+    &lt;script&gt;
+    const Editor=Yaposi;
+    &#47;&#47;continue in Usage
+  &lt;&#47;script&gt;
+  &lt;&#47;body&gt;
+&#96;&#96;&#96;
+
+### Usage
+&#96;&#96;&#96;javascript
+const editor= new Editor(&quot;katex&quot;,&quot;# hello world&quot;);
+let domEditor = editor.Start();
+document.body.appendChild(domEditor);
+&#96;&#96;&#96;
+* In this case instead of calling *Yaposi* we changed the name to be  *Editor*,  takes there parameters
+  
+
+1. **LaTeX render name**: string
+    * What LaTeX rendering to use, &quot;katex&quot; or &quot;mathjax&quot;, for now it only works for katex, this is for   future compatibility.
+  
+2. **Initial markdown**: string
+    * The initial markdown to use.
+
+### Methods
+
+* **Start()**
+  * builds dom element for editor.
+
+* **GetMarkdown() → [string , string]**
+  * GetMarkdown returns the markdown from editor, the first value is the raw markdown and the second one is the scaped markdown, it will scape &amp;,&lt;,&gt;,&quot;,&#039;,&#96;,&#47; and &amp;#92; .
+
+* **GetHTML() → [string , string]**
+  * GetHTML returns the html rendered result of markdown, the first return value is the HTML and the the second one is the scaped HTML, it will scape &amp;,&lt;,&gt;,&quot;,&#039;,&#96;,&#47; and &amp;#92; .
+
+* **SetValue(string)**
+
+  * SetValue sets the string value to the editor, the string should be the markdown.
+
+### LaTeX
+
+* You can add LaTeX by wrapping LaTeX content by  &amp;#129370;{LaTeX}&amp;#128036;,
+  the LaTeX renderer is [katex](https:&#47;&#47;katex.org), in a future release
+it will have suport for [mathjax](https:&#47;&#47;www.mathjax.org)
+
+🥚
+&#92;displaystyle &#92;frac{1}{&#92;Bigl(&#92;sqrt{&#92;phi &#92;sqrt{5}}-&#92;phi&#92;Bigr) e^{&#92;frac25 &#92;pi}} 
+= 1+&#92;frac{e^{-2&#92;pi}} {1+&#92;frac{e^{-4&#92;pi}} {1+&#92;frac{e^{-6&#92;pi}} {1+&#92;frac{e^{-8&#92;pi}} {1+&#92;cdots} } } }
+🐤
+
+* To use it inline just write as inline 🥚x = {-b &#92;pm &#92;sqrt{b^2-4ac} &#92;over 2a}🐤 as showed here.
+
+
+* If you write it as new line, it will be in a new line.
+
+🥚
+f(x)=&#92;int_{-&#92;infty}^&#92;infty
+    &#92;hat f(&#92;xi)&#92;,e^{2 &#92;pi i &#92;xi x}
+    d&#92;xi🐤
+
+### New lines
+
+* To add new lines you need to add icon &amp;#128165;
+
+💥💥💥
+
+  
+### Image
+  
+* for inline image just write as inline![Image 2][2]
+
+* for a image to be in new line just put it in a new line. 
+
+![Image 2][2]
+
+
+![Image 1][1]
+
+### License
+
+Yaposi is licensed under the [MIT License](http:&#47;&#47;opensource.org&#47;licenses&#47;MIT)
+
+
+[1]: https:&#47;&#47;images.unsplash.com&#47;photo-1534653169071-4f036d137aca?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=748&amp;q=80 &quot;random title&quot; 
+
+[2]: https:&#47;&#47;github.com&#47;adam-p&#47;markdown-here&#47;raw&#47;master&#47;src&#47;common&#47;images&#47;icon48.png &quot;random title&quot; 
+</textarea>
+  </body>
+</html>

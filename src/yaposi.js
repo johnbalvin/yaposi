@@ -1,12 +1,12 @@
-/*If you are debugging the code you may wonder why sometimes I call codeMirror.refresh();
-  There are weird behaviors with Codemirror, when the codemirror changes it's size, or when 
+/*If you are debugging the code you may wonder why sometimes I call CodeMirror.refresh();
+  There are weird behaviors with CodeMirror, when the CodeMirror changes it's size, or when 
   goes from hiding to showing.
   Behaviors: 
         - not selecting text correctly.
-        - codemirror not showing
+        - CodeMirror not showing
   not showing any text until clicked, when clicked on an area .. etc
-    //https://github.com/codemirror/CodeMirror/issues/4997
-    //https://github.com/codemirror/CodeMirror/issues/2469
+    //https://github.com/CodeMirror/CodeMirror/issues/4997
+    //https://github.com/CodeMirror/CodeMirror/issues/2469
     For this reason I called it whenever it's size change or when I'm showing it
 */
 import {Toolbar} from './toolBar.js';
@@ -20,23 +20,33 @@ import {CodeMirror} from '../lib/codemirror/codemirror.js';
 
 export class Yaposi{
     constructor(mdRendererName,markdownInitial){
-        this.me="";
-        this.CodeBlock="";
-        this.Img="";
-        this.Table="";
-        this.toolbar="";
-        this.codeMirror="";
+        this.Me="";
+        this.CodeBlock={Module: CodeBlock, Handler: "" , Dom:""};
+        this.Img={Module: Img, Handler: "" , Dom:""};
+        this.Table={Module: Table, Handler: "" , Dom: ""};
+        this.Toolbar={Module: Toolbar, Handler: "" , Dom: ""};
+        this.CodeMirror={Module: CodeMirror, Handler: "" , Dom: ""};
         this.GetHTML=this.GetHTML.bind(this);
         this.GetMarkdown=this.GetMarkdown.bind(this);
         this.markdownRender = new MarkdownRender(mdRendererName);
-        this.start(markdownInitial);
+        this.mdInitial=markdownInitial;
     }
-    getDom(){//this may be removed until codemirror issue gets solved
-        setTimeout(()=>{
-            this.codeMirror.focus();
-            this.codeMirror.refresh();
-        },300);
-        return this.me
+    GetMarkdown(){//it returns markdown value, and scaped version of it
+        const cm                = this.CodeMirror.Handler;    
+        const cmValue           = cm.getValue();//-------------------------markdown value
+        const scaped            = this.sanitize(cmValue);
+        return [cmValue,scaped]
+    }
+    GetHTML(){//it returns the markdown html result and scaped version of it
+        const cm                = this.CodeMirror.Handler;    
+        const cmValueRaw           = cm.getValue();//-------------------------markdown value
+        const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
+        const htmlValue         = this.markdownRender.getHTML(cmValue);
+        const scapedHTML        = this.sanitize(htmlValue);
+        return [htmlValue,scapedHTML]
+    }
+    SetValue(markdown){//set a markdown value to editor
+        this.CodeMirror.Handler.setValue(markdown);
     }
     creatPreview(){
         const preview=document.createElement("div");
@@ -46,75 +56,82 @@ export class Yaposi{
         wrapper.dataset.state="both";
         return [preview,wrapper]
     }
-    start(markdownInitial){
-            let wrapper=document.createElement("div");
-            wrapper.classList.add("yaposi")
-            const codeMirrorWrapper=document.createElement("div");
-            codeMirrorWrapper.classList.add("codeMirrorWrapper");
-            wrapper.appendChild(codeMirrorWrapper);
-            const codeMirrorConfig=this.codeMirrorConfigF(markdownInitial);
-            this.codeMirror=CodeMirror(codeMirrorWrapper, codeMirrorConfig);
-        /* Creat and toolbar with it's listener */
-            this.toolbar=new Toolbar(this.codeMirror,wrapper);
-            const toolBarHTML=this.toolbar.create();
-            wrapper.prepend(toolBarHTML);
-            this.toolbar.registerKeyMaps();
-        /*---------------------------- */
-        
-        /*creat preview */
-            const [preview,wrapperPreview]=this.creatPreview();
-            wrapper.appendChild(wrapperPreview); 
-            this.previewContainer=preview;
-        /*----------------------------*/ 
+    Start(){
+        const wrapper=document.createElement("div");
+        wrapper.classList.add("yaposi");
+        const cmWrapper=document.createElement("div");
+        cmWrapper.classList.add("codeMirrorWrapper");
+        wrapper.appendChild(cmWrapper);
 
+        const cmModule = this.CodeMirror.Module;
+        const cmConfig=    this.CodeMirrorConfig(this.mdInitial);
+        const cmHandler = cmModule(cmWrapper, cmConfig);
+        this.CodeMirror.Handler= cmHandler;
+
+        /*creat preview */
+        const [preview,wrapperPreview]=this.creatPreview();
+        wrapper.appendChild(wrapperPreview); 
+        this.previewContainer=preview;
+        /*----------------------------*/ 
+        /* Creat toolbar with it's listener */
+        const tobModule  =  this.Toolbar.Module;
+        const tobHandler =  new tobModule(cmHandler,wrapper);
+        const tobDom     =  tobHandler.create();
+        wrapper.prepend(tobDom);
+        tobHandler.registerKeyMaps();
+
+        this.Toolbar.Dom = tobDom;
+        this.Toolbar.Handler= tobHandler;
+        /*---------------------------- */
+    
         /* creat the code full handler*/
-            this.CodeBlock=new CodeBlock(this.codeMirror);
-            const codeFullHTML=this.CodeBlock.create();
-            wrapper.appendChild(codeFullHTML);
-            const iconCodeFull=toolBarHTML.querySelector(`[data-name="code-block"]`);
-            iconCodeFull.addEventListener("click",this.CodeBlock.show);
+        const cbModule  = this.CodeBlock.Module;
+        const cbHandler = new cbModule(cmHandler);
+        const cbDom     = cbHandler.create();
+        wrapper.appendChild(cbDom);
+        const cbIcon=tobDom.querySelector(`[data-name="code-block"]`);
+        cbIcon.addEventListener("click",cbHandler.show);
+
+        this.CodeBlock.Dom= cbDom;
+        this.CodeBlock.Handler=cbHandler;
         /*----------------------------- */
 
         /* creat the upload image handler*/
-            this.Img=new Img(this.codeMirror);
-            const imgHandlerHTML=this.Img.create();
-            wrapper.appendChild(imgHandlerHTML);
-            const iconCodeImg=toolBarHTML.querySelector(`[data-name="image"]`);
-            iconCodeImg.addEventListener("click",this.Img.handle);
+        const imgModule = this.Img.Module;
+        const imgHandler=new imgModule(cmHandler);
+        const imgDom= imgHandler.create();
+        wrapper.appendChild(imgDom);
+        const imIcon=tobDom.querySelector(`[data-name="image"]`);
+        imIcon.addEventListener("click",imgHandler.handle);
+
+        this.Img.Dom= imgDom;
+        this.Img.Handler= imgHandler;
         /*----------------------------- */
 
         /*creat table handler*/
-            this.Table=new Table(this.codeMirror);
-            const tableHandlerHTML=this.Table.create();
-            wrapper.appendChild(tableHandlerHTML);
-            const iconTable=toolBarHTML.querySelector(`[data-name="table"]`);
-            iconTable.addEventListener("click",this.Table.show);
+        const tbModule  = this.Table.Module; 
+        const tbHandler = new tbModule(cmHandler);
+        const tbDom = tbHandler.create();
+        wrapper.appendChild(tbDom);
+        const tbIcon=tobDom.querySelector(`[data-name="table"]`);
+        tbIcon.addEventListener("click",this.Table.show);
+
+        this.Table.Dom = tbDom;
+        this.Table.Handler= tbHandler;
         /*--------------------------- */
         this.render();
-        this.codeMirror.on("change",()=>{this.render();});
+        cmHandler.on("change",()=>{this.render();});
        
-        this.me=wrapper;
-    }
-    GetMarkdown(){//it returns markdown value, and scaped version of it
-        const cm                = this.codeMirror;    
-        const cmValue           = cm.getValue();//-------------------------markdown value
-        const scaped            = this.sanitize(cmValue);
-        return [cmValue,scaped]
-    }
-    GetHTML(){//it returns the markdown html result and scaped version of it
-        const cm                = this.codeMirror;    
-        const cmValueRaw           = cm.getValue();//-------------------------markdown value
-        const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
-        const htmlValue         = this.markdownRender.getHTML(cmValue);
-        const scapedHTML        = this.sanitize(htmlValue);
-        return [htmlValue,scapedHTML]
-    }
-    SetValue(markdown){//set a markdown value to editor
-        this.codeMirror.setValue(markdown);
+        this.Me=wrapper;
+        setTimeout(()=>{
+            this.CodeMirror.Handler.focus();
+            this.CodeMirror.Handler.refresh();
+        },300);
+        return wrapper
     }
     render() {
         const previewContainer      = this.previewContainer;
-        const cm                    = this.codeMirror;    
+        const cm                    = this.CodeMirror.Handler;    
         let cmValue               = cm.getValue();//-------------------------markdown value
         cmValue= cmValue.replace(/</g, "&lt;").replace(/💥/g, "<br>");
         const htmlValue             = this.markdownRender.getHTML(cmValue);
@@ -134,7 +151,7 @@ export class Yaposi{
         };
         return unSafeString.replace(/[&<>"'`/\\]/g, (match)=>(map[match]));
     }
-    codeMirrorConfigF(markdownInitial){
+    CodeMirrorConfig(markdownInitial){
         const me={
             value                     : markdownInitial,
             mode                      : "gfm",

@@ -25,12 +25,12 @@
 .yaposi-img .yaposi-img-actions .insert{
     visibility: hidden;
 }
-.yaposi-spinning{
+.yaposi-img .yaposi-img-uploading{
     animation:yaposi-spinning-rotate 1s linear infinite;
     transform-origin:center center;
     width: 40%;
 }
-.yaposi-spinning .loader-path{
+.yaposi-img .yaposi-img-uploading .loader-path{
     stroke-dasharray:150,200;
     stroke-dashoffset:-10;
     animation:yaposi-spinning-dash 2s ease-in-out infinite;
@@ -50,7 +50,7 @@
 .yaposi-img input{
     display: none;
 }
-.yaposi-dropper{
+.yaposi-img-dropper{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,35 +58,37 @@
     border: 1px dashed black;
     margin: 7px;
 }
-.yaposi-uploading{
+.yaposi-img-state{
     height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
 }
-.yaposi-imgPreview{
+.yaposi-img-preview{
     height: 100%;
     display: none;
     justify-content: center;
     align-items: center;
 }
-.yaposi-imgPreview img{
+.yaposi-img-preview img{
     width: 50%;
 }
 .yaposi-img-actions{
     display: flex;
     justify-content: space-between;
 }
-.yaposi-dropper svg.dragover{
+.yaposi-img-dropper svg.dragover{
     fill:red;
 }
-.yaposi-dropper svg{
-    width: 50px;
-    height: 50px;
+.yaposi-img svg{
+    width: 50%;
 }
-.yaposi-dropper.dragover{
+.yaposi-img-dropper.dragover{
     border: 1px dashed red;
 }
-.yaposi-dropper svg:active{
+.yaposi-img-dropper svg:active{
     transform: scale(0.95)
+}
+.yaposi-img{
+    width: 350px;
 }
