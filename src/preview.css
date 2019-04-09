@@ -47,8 +47,7 @@ pre.prettyprint{
   border-left: 2px solid #ffeb8e;
 }
 .yaposi-preview{
-    display: flex;
-    flex-direction: column;
+    display: block;
     overflow: scroll;
     padding: 7px;
     font-family: Arial;
@@ -69,4 +68,16 @@ pre.prettyprint{
 .yaposi-preview pre{
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+.yaposi-preview::-webkit-scrollbar{
+  appearance: none;
+  width: 7px;
+}
+.yaposi-preview::-webkit-scrollbar:horizontal{
+  height: 7px;
+}
+.yaposi-preview::-webkit-scrollbar-thumb{
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
 }

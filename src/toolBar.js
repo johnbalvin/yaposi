@@ -695,7 +695,7 @@ export class Toolbar{
                             `;
                             break;
                          case "editor":
-                            preview.style.display="flex";
+                            preview.style.display="block";
                             preview.dataset.state="both";
                             this.editorWrapper.classList.remove("modeEditor");
                             li.setAttribute("title","Watch only preview");

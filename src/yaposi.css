@@ -66,14 +66,14 @@
 .yaposi .codeMirrorWrapper::-webkit-scrollbar { 
   display: none; 
 }
-.yaposi .yaposi-preview::-webkit-scrollbar,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
   appearance: none;
   width: 7px;
 }
-.yaposi .yaposi-preview::-webkit-scrollbar:horizontal,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
   height: 7px;
 }
-.yaposi .yaposi-preview::-webkit-scrollbar-thumb,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0,0,0,.5);
   box-shadow: 0 0 1px rgba(255,255,255,.5);

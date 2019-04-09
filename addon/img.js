@@ -12,6 +12,7 @@ export  class Img{
         this.generateFetch=this.generateFetch.bind(this);
         this.addURL=this.addURL.bind(this);
         this.uploadImg=false;
+        this.urlToUpload="";
         this.insertBtn="";
         this.codeMirrorTarget=codeMirrorTarget;
         this.droppperWrapper="";
@@ -183,8 +184,7 @@ export  class Img{
     }
     generateFetch(img){//this fits my needs, you should change it by your needs :D.
         const body= new FormData();
-        body.append("c","2");
-        body.append("c2","1");
+        body.append("c","1");
         body.append("img",img);
         return body
     }
@@ -195,7 +195,7 @@ export  class Img{
         this.stateUp.style.display="flex";
         
         const body = this.generateFetch(this.file);
-        await fetch("",{credentials:"include",method:"post",body:body})
+        await fetch(this.urlToUpload,{credentials:"include",method:"post",body:body})
         .then((resp)=>{
             if(resp.status==200){
                 return resp.text()

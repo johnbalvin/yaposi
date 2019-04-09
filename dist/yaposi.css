@@ -1,4 +1,4 @@
-/*version: 1*/
+/*version: 1.1*/
 /*Change this colors if you want to change the color*/
 :root{
   --yaposi_Icon_Color:#AB47BC;
@@ -56,14 +56,14 @@
 .yaposi .codeMirrorWrapper::-webkit-scrollbar { 
   display: none; 
 }
-.yaposi .yaposi-preview::-webkit-scrollbar,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
   appearance: none;
   width: 7px;
 }
-.yaposi .yaposi-preview::-webkit-scrollbar:horizontal,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
   height: 7px;
 }
-.yaposi .yaposi-preview::-webkit-scrollbar-thumb,.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0,0,0,.5);
   box-shadow: 0 0 1px rgba(255,255,255,.5);
@@ -218,8 +218,7 @@ pre.prettyprint{
   border-left: 2px solid #ffeb8e;
 }
 .yaposi-preview{
-    display: flex;
-    flex-direction: column;
+    display: block;
     overflow: scroll;
     padding: 7px;
     font-family: Arial;
@@ -240,6 +239,18 @@ pre.prettyprint{
 .yaposi-preview pre{
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+.yaposi-preview::-webkit-scrollbar{
+  appearance: none;
+  width: 7px;
+}
+.yaposi-preview::-webkit-scrollbar:horizontal{
+  height: 7px;
+}
+.yaposi-preview::-webkit-scrollbar-thumb{
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 .yaposi_CB {
   color: #666;

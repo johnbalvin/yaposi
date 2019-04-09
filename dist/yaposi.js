@@ -1,4 +1,4 @@
-//version: 1
+//version: 1.1
 const values=yaposi();
 var Yaposi=values.Yaposi;
 var MarkdownRender=values.MarkdownRender;
@@ -702,7 +702,7 @@ function yaposi(exports= {}) {
                             `;
                                 break;
                              case "editor":
-                                preview.style.display="flex";
+                                preview.style.display="block";
                                 preview.dataset.state="both";
                                 this.editorWrapper.classList.remove("modeEditor");
                                 li.setAttribute("title","Watch only preview");
@@ -732,6 +732,7 @@ function yaposi(exports= {}) {
             this.generateFetch=this.generateFetch.bind(this);
             this.addURL=this.addURL.bind(this);
             this.uploadImg=false;
+            this.urlToUpload="";
             this.insertBtn="";
             this.codeMirrorTarget=codeMirrorTarget;
             this.droppperWrapper="";
@@ -757,31 +758,31 @@ function yaposi(exports= {}) {
         }
         create() {
             let html = `
-            <div class="yaposi-img">
-                <div class="yaposi-img-dropper"> 
-                    <input type="file" accept="image/*">
-                    <svg class="yaposi-upload" viewBox="0 0 24 24">
-                      <path d="M0 0h24v24H0z" fill="none"/>
-                      <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
-                    </svg>
-                </div>
-                <div class="yaposi-img-state">
-                    <svg class="yaposi-img-uploading" class="yaposi-spinning" viewBox="25 25 50 50" >
-                        <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#70c542" stroke-width="10" />
-                    </svg>
-                    <svg class="yaposi-img-cross" viewBox="0 0 32 32">
-                       <path d="M31.708 25.708c-0-0-0-0-0-0l-9.708-9.708 9.708-9.708c0-0 0-0 0-0 0.105-0.105 0.18-0.227 0.229-0.357 0.133-0.356 0.057-0.771-0.229-1.057l-4.586-4.586c-0.286-0.286-0.702-0.361-1.057-0.229-0.13 0.048-0.252 0.124-0.357 0.228 0 0-0 0-0 0l-9.708 9.708-9.708-9.708c-0-0-0-0-0-0-0.105-0.104-0.227-0.18-0.357-0.228-0.356-0.133-0.771-0.057-1.057 0.229l-4.586 4.586c-0.286 0.286-0.361 0.702-0.229 1.057 0.049 0.13 0.124 0.252 0.229 0.357 0 0 0 0 0 0l9.708 9.708-9.708 9.708c-0 0-0 0-0 0-0.104 0.105-0.18 0.227-0.229 0.357-0.133 0.355-0.057 0.771 0.229 1.057l4.586 4.586c0.286 0.286 0.702 0.361 1.057 0.229 0.13-0.049 0.252-0.124 0.357-0.229 0-0 0-0 0-0l9.708-9.708 9.708 9.708c0 0 0 0 0 0 0.105 0.105 0.227 0.18 0.357 0.229 0.356 0.133 0.771 0.057 1.057-0.229l4.586-4.586c0.286-0.286 0.362-0.702 0.229-1.057-0.049-0.13-0.124-0.252-0.229-0.357z" fill="red"/>
-                    </svg>
-                </div>
-                <div class="yaposi-img-preview">
-                    <img src="">
-                </div>
-                <div class="yaposi-img-actions">
-                    <button class="cancel">Cancel</button>
-                    <button class="insert">Insert</button>
-                </div>
+        <div class="yaposi-img">
+            <div class="yaposi-img-dropper"> 
+                <input type="file" accept="image/*">
+                <svg class="yaposi-upload" viewBox="0 0 24 24">
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                </svg>
             </div>
-        `;
+            <div class="yaposi-img-state">
+                <svg class="yaposi-img-uploading" class="yaposi-spinning" viewBox="25 25 50 50" >
+                    <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke="#70c542" stroke-width="10" />
+                </svg>
+                <svg class="yaposi-img-cross" viewBox="0 0 32 32">
+                   <path d="M31.708 25.708c-0-0-0-0-0-0l-9.708-9.708 9.708-9.708c0-0 0-0 0-0 0.105-0.105 0.18-0.227 0.229-0.357 0.133-0.356 0.057-0.771-0.229-1.057l-4.586-4.586c-0.286-0.286-0.702-0.361-1.057-0.229-0.13 0.048-0.252 0.124-0.357 0.228 0 0-0 0-0 0l-9.708 9.708-9.708-9.708c-0-0-0-0-0-0-0.105-0.104-0.227-0.18-0.357-0.228-0.356-0.133-0.771-0.057-1.057 0.229l-4.586 4.586c-0.286 0.286-0.361 0.702-0.229 1.057 0.049 0.13 0.124 0.252 0.229 0.357 0 0 0 0 0 0l9.708 9.708-9.708 9.708c-0 0-0 0-0 0-0.104 0.105-0.18 0.227-0.229 0.357-0.133 0.355-0.057 0.771 0.229 1.057l4.586 4.586c0.286 0.286 0.702 0.361 1.057 0.229 0.13-0.049 0.252-0.124 0.357-0.229 0-0 0-0 0-0l9.708-9.708 9.708 9.708c0 0 0 0 0 0 0.105 0.105 0.227 0.18 0.357 0.229 0.356 0.133 0.771 0.057 1.057-0.229l4.586-4.586c0.286-0.286 0.362-0.702 0.229-1.057-0.049-0.13-0.124-0.252-0.229-0.357z" fill="red"/>
+                </svg>
+            </div>
+            <div class="yaposi-img-preview">
+                <img src="">
+            </div>
+            <div class="yaposi-img-actions">
+                <button class="cancel">Cancel</button>
+                <button class="insert">Insert</button>
+            </div>
+        </div>
+    `;
             let temp=document.createElement("template");
             temp.innerHTML=html;
             let wrapper=temp.content.querySelector(".yaposi-img");
@@ -903,8 +904,7 @@ function yaposi(exports= {}) {
         }
         generateFetch(img){//this fits my needs, you should change it by your needs :D.
             const body= new FormData();
-            body.append("c","2");
-            body.append("c2","1");
+            body.append("c","1");
             body.append("img",img);
             return body
         }
@@ -915,7 +915,7 @@ function yaposi(exports= {}) {
             this.stateUp.style.display="flex";
             
             const body = this.generateFetch(this.file);
-            await fetch("",{credentials:"include",method:"post",body:body})
+            await fetch(this.urlToUpload,{credentials:"include",method:"post",body:body})
             .then((resp)=>{
                 if(resp.status==200){
                     return resp.text()
@@ -61257,5 +61257,5 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
     exports.MarkdownRender = MarkdownRender;
     exports.Yaposi = Yaposi;
 
-    return exports
+     return exports
 };
