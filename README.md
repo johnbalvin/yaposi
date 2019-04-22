@@ -8,12 +8,12 @@
 * If module:
 ```html
 <head>
-   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.1/yaposi.css">
+   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.2/yaposi.css">
  </head>
   <body>
   </body>
 	<script type="module">
-		import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.1/yaposi.mjs'
+		import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.2/yaposi.mjs'
 		//continue in Usage
 	</script>
  </body>
@@ -21,8 +21,8 @@
 * If normal:
 ```html
 <head>
-   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.1/yaposi.css">
-   <script defer src="https://storage.googleapis.com/yaposi/release/1.1/yaposi.js"></script>
+   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.2/yaposi.css">
+   <script defer src="https://storage.googleapis.com/yaposi/release/1.2/yaposi.js"></script>
   </head>
    <body>
   </body>

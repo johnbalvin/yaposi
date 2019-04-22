@@ -16,7 +16,7 @@
   --yaposi_Color_Hover:#7B1FA2;
 }
 /*------------------------------------------------*/
-.yaposi {
+.yaposi{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto 1fr;
@@ -25,7 +25,7 @@
   height: 100%;
   overflow: hidden;
   border: 1px solid black; 
-} 
+}
 .yaposi .codeMirrorWrapper{
   grid-area: editor;
   overflow: scroll;
@@ -40,7 +40,7 @@
   font-family: Arial;
   width: 100%;
 }
-.yaposi .yaposi-toolbar {
+.yaposi .yaposi-toolbar{
   grid-area: toolbar;
   margin: 3px;
 }
@@ -63,7 +63,7 @@
   padding: 7px;
   border-radius: 7px;
 }
-.yaposi .codeMirrorWrapper::-webkit-scrollbar { 
+.yaposi .codeMirrorWrapper::-webkit-scrollbar{ 
   display: none; 
 }
 .yaposi .CodeMirror-vscrollbar::-webkit-scrollbar{
@@ -73,7 +73,7 @@
 .yaposi .CodeMirror-vscrollbar::-webkit-scrollbar:horizontal{
   height: 7px;
 }
-.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+.yaposi .CodeMirror-vscrollbar::-webkit-scrollbar-thumb{
   border-radius: 4px;
   background-color: rgba(0,0,0,.5);
   box-shadow: 0 0 1px rgba(255,255,255,.5);

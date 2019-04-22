@@ -1,4 +1,4 @@
-//version: 1.1
+//version: 1.2
 const values=yaposi();
 var Yaposi=values.Yaposi;
 var MarkdownRender=values.MarkdownRender;
@@ -61027,8 +61027,7 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
         GetHTML(){//it returns the markdown html result and scaped version of it
             const cm                = this.CodeMirror.Handler;    
             const cmValueRaw           = cm.getValue();//-------------------------markdown value
-            const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
-            const htmlValue         = this.markdownRender.getHTML(cmValue);
+            const htmlValue         = this.markdownRender.getHTML(cmValueRaw);
             const scapedHTML        = this.sanitize(htmlValue);
             return [htmlValue,scapedHTML]
         }
@@ -61184,6 +61183,7 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
             this.options={renderer: this.getMarkedRender(renderer)};
         }
         getHTML(markdownValue){
+            markdownValue= markdownValue.replace(/</g, "&lt;").replace(/💥/g, "<br>");
             return marked(markdownValue,this.options);
         }
         renderText(render,html){

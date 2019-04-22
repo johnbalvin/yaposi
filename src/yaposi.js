@@ -40,8 +40,7 @@ export class Yaposi{
     GetHTML(){//it returns the markdown html result and scaped version of it
         const cm                = this.CodeMirror.Handler;    
         const cmValueRaw           = cm.getValue();//-------------------------markdown value
-        const cmValue=cmValueRaw.replace(/</g, "&lt;").replace(/💥/g, "<br>");
-        const htmlValue         = this.markdownRender.getHTML(cmValue);
+        const htmlValue         = this.markdownRender.getHTML(cmValueRaw);
         const scapedHTML        = this.sanitize(htmlValue);
         return [htmlValue,scapedHTML]
     }
@@ -133,7 +132,6 @@ export class Yaposi{
         const previewContainer      = this.previewContainer;
         const cm                    = this.CodeMirror.Handler;    
         let cmValue               = cm.getValue();//-------------------------markdown value
-        cmValue= cmValue.replace(/</g, "&lt;").replace(/💥/g, "<br>");
         const htmlValue             = this.markdownRender.getHTML(cmValue);
         previewContainer.innerHTML  = htmlValue;
         PR.prettyPrint();
@@ -197,6 +195,7 @@ export class MarkdownRender{
         this.options={renderer: this.getMarkedRender(renderer)};
     }
     getHTML(markdownValue){
+        markdownValue= markdownValue.replace(/</g, "&lt;").replace(/💥/g, "<br>");
         return marked(markdownValue,this.options);
     }
     renderText(render,html){

@@ -1,4 +1,4 @@
-import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.1/yaposi.mjs';
+import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.2/yaposi.mjs';
 
 
 const editor=new Editor("katex","# fetching data.....");  

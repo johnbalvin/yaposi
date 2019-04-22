@@ -43,8 +43,12 @@ pre.prettyprint{
 .yaposi-preview blockquote{
   margin-bottom: 10px;
   padding: 10px;
-  background-color: #FFF8DC;
+  background-color: #7d7d7d;
   border-left: 2px solid #ffeb8e;
+  font-style: italic;
+}
+.yaposi-preview blockquote p{
+  margin: 0;
 }
 .yaposi-preview{
     display: block;
@@ -52,8 +56,6 @@ pre.prettyprint{
     padding: 7px;
     font-family: Arial;
     width: 100%;
-    background-color: #fff;
-    color: rgba(0,0,0,.85);
 }
 .yaposi-preview td{
     border: 1px solid #BDBDBD;

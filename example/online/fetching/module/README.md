@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <title>Example Yaposi markdown editor</title>
-    <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.1/yaposi.css">
+    <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.2/yaposi.css">
     <link rel="stylesheet" href="style.css">
     <script src="usage.js" type="module"></script>
   </head>
@@ -21,7 +21,7 @@
 
 ### usage.js
 ```javascript
-import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.1/yaposi.mjs';
+import {Yaposi as Editor} from 'https://storage.googleapis.com/yaposi/release/1.2/yaposi.mjs';
 
 
 const editor=new Editor("katex","# fetching data.....");  

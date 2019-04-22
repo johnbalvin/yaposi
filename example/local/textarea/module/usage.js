@@ -1,4 +1,4 @@
-import {Yaposi as Editor} from '../../../dist/yaposi.mjs';
+import {Yaposi as Editor} from '../../../../dist/yaposi.mjs';
 
 let textArea=document.querySelector("textarea");
 let value=textArea.value.trimStart();//trim obligatory because spaces at beginning of text area may afect your result
