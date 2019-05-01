@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Example Yaposi preview</title>
+  <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/preview/preview1_2.css">
+  <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/prettify/styles/sunburst.css">
+  <script type="module">
+      import {PR} from 'https://storage.googleapis.com/yaposi/prettify/prettify.js';
+      PR.prettyPrint()
+  </script>
+  </head>
+  <body>
+      <div class="yaposi-preview">
+<h1 id="requirements">Requirements</h1>
+<ul><li>HTML of markdown already rendered</li>
+<li>CSS of <a href="https://github.com/johnbalvin/yaposi">yaposi</a> preview<ul><li><a href="https://storage.googleapis.com/yaposi/preview/preview1_2.css">https://storage.googleapis.com/yaposi/preview/preview1_2.css</a></li>
+</ul></li>
+<li><a href="https://storage.googleapis.com/yaposi/prettify/prettify.js">prettify.js</a></li>
+<li>Pick any CSS style from 
+<a href="https://github.com/google/code-prettify">prettify</a> and add it to your HTML<ul><li><a href="https://storage.googleapis.com/yaposi/prettify/styles/desert.css">desert</a></li>
+<li><a href="https://storage.googleapis.com/yaposi/prettify/styles/doxy.css">doxy</a></li>
+<li><a href="https://storage.googleapis.com/yaposi/prettify/styles/sons-of-obsidian.css">sons-of-obsidian</a></li>
+<li><a href="https://storage.googleapis.com/yaposi/prettify/styles/sunburst.css">sunburst</a></li>
+</ul></li>
+</ul><h3 id="usage">Usage</h3>
+<ul><li><p>Put all HTML rendered into a wrapper with class &quot;yaposi-preview&quot;</p></li>
+<li><p>Call  <code>PR.prettyPrint()</code> when page is loaded</p><h3 id="example">Example</h3>
+</li>
+</ul>
+            <pre class="prettyprint linenums"><code class="language-html">&lt;!DOCTYPE html>
+&lt;html lang="en">
+    &lt;head>
+    &lt;meta charset="UTF-8">
+    &lt;meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    &lt;title>Example Yaposi preview&lt;/title>
+    &lt;link rel="stylesheet" href="https://storage.googleapis.com/yaposi/preview/preview1_2.css">
+    &lt;link rel="stylesheet" href="https://storage.googleapis.com/yaposi/prettify/styles/sunburst.css">
+    &lt;script type="module">
+        import {PR} from 'https://storage.googleapis.com/yaposi/prettify/prettify.js';
+        PR.prettyPrint()
+    &lt;/script>
+    &lt;/head>
+    &lt;body>
+        &lt;div class="yaposi-preview">
+    &lt;!--- 
+        HTML rendered
+        -->
+        &lt;/div>
+    &lt;/body>
+&lt;/html></code></pre>
+      </div>
+  </body>
+</html>

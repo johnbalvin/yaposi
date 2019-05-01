@@ -10,14 +10,14 @@ export default [{
   input: "src/yaposi.js",
   output: {
     format: "umd",
-    file: "dist/yaposi2.js",
+    file: "dist/full/yaposi2.js",
     name: "Yaposi"
   },
 },{
   input: "src/render.js",
   output: {
     format: "umd",
-    file: "dist/render.js",
+    file: "dist/parts/render.js",
     name: "Yaposi"
   },
 }];

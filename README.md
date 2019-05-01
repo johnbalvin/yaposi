@@ -4,6 +4,8 @@
 
 * [module](https://storage.googleapis.com/yaposi/example/fetching/module/index.html)
 
+* [if Already Rendered](https://storage.googleapis.com/yaposi/example/ifAlreadyRendered/index.html)
+
 # Backend
   1. Install [docker desktop](https://www.docker.com/products/docker-desktop)
   2. Run in console:  `docker pull  gcr.io/yaposi/backend`

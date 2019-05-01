@@ -4,6 +4,8 @@
 
 * [module](https://storage.googleapis.com/yaposi/example/fetching/module/index.html)
 
+* [if Already Rendered](https://storage.googleapis.com/yaposi/example/ifAlreadyRendered/index.html)
+
 ### Installation
 * If module:
 ```html
