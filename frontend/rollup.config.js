@@ -6,11 +6,18 @@ Steps to bundle it
 4. Bundle file will be at dist/yaposi2.js
 5. Modify the bundle file as I did, so this can work as module .mjs and as normal .js
 */
-export default {
+export default [{
   input: "src/yaposi.js",
   output: {
     format: "umd",
     file: "dist/yaposi2.js",
     name: "Yaposi"
   },
-};
+},{
+  input: "src/render.js",
+  output: {
+    format: "umd",
+    file: "dist/render.js",
+    name: "Yaposi"
+  },
+}];
