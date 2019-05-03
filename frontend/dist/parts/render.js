@@ -17806,6 +17806,20 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
     }
   };
 
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+      "`": '&#96;',
+      "/": '&#47;',
+      "\\": '&#92;',
+  };
+  function Sanitize(unSafeString){
+     return unSafeString.replace(/[&<>"'`/\\]/g, (match)=>(map[match]));
+  }
+
   class MarkdownRender{
       constructor(rendererName){
           this.rendererName=rendererName;
@@ -17871,6 +17885,7 @@ M500 241 v40 H399408 v-40z M500 435 v40 H400000 v-40z`
               return `<p>${html}</p>`
           };
           renderer.code = function (code,infostring,escaped){
+              code=Sanitize(code);
               return `
             <pre class="prettyprint linenums"><code class="language-${infostring}">${code}</code></pre>
             `

@@ -1,5 +1,6 @@
 import {marked} from '../lib/marked.js';
 import katex from '../lib/katex/katexmj.js';
+import {Sanitize} from './sanitizer.js'
 export class MarkdownRender{
     constructor(rendererName){
         this.rendererName=rendererName;
@@ -65,6 +66,7 @@ export class MarkdownRender{
             return `<p>${html}</p>`
         }
         renderer.code = function (code,infostring,escaped){
+            code=Sanitize(code);
             return `
             <pre class="prettyprint linenums"><code class="language-${infostring}">${code}</code></pre>
             `

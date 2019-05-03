@@ -16,6 +16,7 @@ import {CodeBlock} from '../addon/codeBlock.js';
 import {PR} from '../lib/prettify/src/prettify.js';
 import {CodeMirror} from '../lib/codemirror/codemirror.js';
 import {MarkdownRender} from './render.js'
+import {Sanitize} from './sanitizer.js'
 
 export class Yaposi{
     constructor(mdRendererName,markdownInitial){
@@ -33,14 +34,14 @@ export class Yaposi{
     GetMarkdown(){//it returns markdown value, and scaped version of it
         const cm                = this.CodeMirror.Handler;    
         const cmValue           = cm.getValue();//-------------------------markdown value
-        const scaped            = this.sanitize(cmValue);
+        const scaped            = Sanitize(cmValue);
         return [cmValue,scaped]
     }
     GetHTML(){//it returns the markdown html result and scaped version of it
         const cm                = this.CodeMirror.Handler;    
-        const cmValueRaw           = cm.getValue();//-------------------------markdown value
+        const cmValueRaw        = cm.getValue();//-------------------------markdown value
         const htmlValue         = this.markdownRender.getHTML(cmValueRaw);
-        const scapedHTML        = this.sanitize(htmlValue);
+        const scapedHTML        = Sanitize(htmlValue);
         return [htmlValue,scapedHTML]
     }
     SetValue(markdown){//set a markdown value to editor
@@ -130,23 +131,10 @@ export class Yaposi{
     render() {
         const previewContainer      = this.previewContainer;
         const cm                    = this.CodeMirror.Handler;    
-        let cmValue               = cm.getValue();//-------------------------markdown value
+        let cmValue                 = cm.getValue();//-------------------------markdown value
         const htmlValue             = this.markdownRender.getHTML(cmValue);
         previewContainer.innerHTML  = htmlValue;
         PR.prettyPrint();
-    }
-    sanitize(unSafeString){
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;',
-            "`": '&#96;',
-            "/": '&#47;',
-            "\\": '&#92;',
-        };
-        return unSafeString.replace(/[&<>"'`/\\]/g, (match)=>(map[match]));
     }
     CodeMirrorConfig(markdownInitial){
         const me={

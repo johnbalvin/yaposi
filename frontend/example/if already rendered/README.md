@@ -1,7 +1,7 @@
 # Requirements
 * HTML of markdown already rendered
 * CSS of [yaposi](https://github.com/johnbalvin/yaposi) preview
-     * https://storage.googleapis.com/yaposi/preview/preview1_2.css
+     * https://storage.googleapis.com/yaposi/release/1.2/preview.css
 * [prettify.js](https://storage.googleapis.com/yaposi/prettify/prettify.js)
 * Pick any CSS style from 
 [prettify](https://github.com/google/code-prettify) and add it to your HTML
@@ -23,7 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <title>Example Yaposi preview</title>
-  <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/preview/preview1_2.css">
+  <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/release/1.2/preview.css">
   <link rel="stylesheet" href="https://storage.googleapis.com/yaposi/prettify/styles/sunburst.css">
   <script type="module">
       import {PR} from 'https://storage.googleapis.com/yaposi/prettify/prettify.js';

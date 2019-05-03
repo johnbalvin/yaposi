@@ -17,7 +17,7 @@ export default [{
   input: "src/render.js",
   output: {
     format: "umd",
-    file: "dist/parts/render.js",
+    file: "dist/parts/render2.js",
     name: "Yaposi"
   },
 }];
